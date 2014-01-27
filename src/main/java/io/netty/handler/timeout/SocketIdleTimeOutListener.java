@@ -3,7 +3,7 @@ package io.netty.handler.timeout;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
 
-public interface SocketIdleTimeOut {
+public interface SocketIdleTimeOutListener {
 
 	public void channelFirstReadTimeOut(ChannelHandlerContext ctx, IdleStateEvent evt);
 

@@ -1,6 +1,6 @@
 package io.netty.handler.timeout.auth;
 
-public interface AuthoeizedChannel {
+public interface AuthenticationProvider {
 
 	public boolean isAuthorized();
 

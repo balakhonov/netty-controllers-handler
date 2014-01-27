@@ -5,7 +5,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 
-public abstract class SocketIdleStateAdapter extends IdleStateHandler implements SocketIdleTimeOut {
+public abstract class SocketIdleStateAdapter extends IdleStateHandler implements SocketIdleTimeOutListener {
 
 	public SocketIdleStateAdapter(int readerIdleTimeSeconds, int writerIdleTimeSeconds, int allIdleTimeSeconds) {
 		super(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds);

@@ -3,10 +3,10 @@ package io.netty.handler.timeout.auth;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
-public abstract class AuthorizationSocketTimeoutAdapter extends ReadTimeoutHandler {
-	private AuthoeizedChannel authoeizedChannel;
+public abstract class AuthenticationTimeoutHandler extends ReadTimeoutHandler {
+	private AuthenticationProvider authoeizedChannel;
 
-	public AuthorizationSocketTimeoutAdapter(int timeoutSeconds, AuthoeizedChannel authoeizedChannel) {
+	public AuthenticationTimeoutHandler(int timeoutSeconds, AuthenticationProvider authoeizedChannel) {
 		super(timeoutSeconds);
 		if (authoeizedChannel == null) {
 			throw new IllegalArgumentException("AuthoeizedChannel should not be null");

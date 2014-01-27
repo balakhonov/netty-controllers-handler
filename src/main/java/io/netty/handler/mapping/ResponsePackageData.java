@@ -1,19 +1,19 @@
 package io.netty.handler.mapping;
 
-public class ResponsePackage {
+public class ResponsePackageData {
 
 	private int resultCode;
 	private String message;
 
-	public ResponsePackage() {
+	public ResponsePackageData() {
 		// no code
 	}
 
-	public ResponsePackage(int resultCode) {
+	public ResponsePackageData(int resultCode) {
 		this.resultCode = resultCode;
 	}
 
-	public ResponsePackage(int resultCode, String message) {
+	public ResponsePackageData(int resultCode, String message) {
 		this.resultCode = resultCode;
 		this.message = message;
 	}

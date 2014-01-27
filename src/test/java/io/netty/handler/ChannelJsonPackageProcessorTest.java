@@ -2,8 +2,8 @@ package io.netty.handler;
 
 import io.netty.handler.ChannelJsonPackageProcessor;
 import io.netty.handler.mapping.RequestPackageWrapper;
-import io.netty.handler.mapping.ResponsePackage;
-import io.netty.handler.timeout.auth.AuthoeizedChannel;
+import io.netty.handler.mapping.ResponsePackageData;
+import io.netty.handler.timeout.auth.AuthenticationProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 
 public class ChannelJsonPackageProcessorTest {
 
-	private AuthoeizedChannel ac = new AuthoeizedChannel() {
+	private AuthenticationProvider ac = new AuthenticationProvider() {
 		boolean authorized = false;
 
 		@Override
@@ -56,7 +56,7 @@ public class ChannelJsonPackageProcessorTest {
 		}
 
 		try {
-			ResponsePackage response = ChannelJsonPackageProcessor.process(request, ac);
+			ResponsePackageData response = ChannelJsonPackageProcessor.process(request, ac);
 
 			assertEquals(999, response.getResultCode());
 			assertEquals("No one mapped(/zseqsc) command found",
@@ -69,7 +69,7 @@ public class ChannelJsonPackageProcessorTest {
 		command = "/sync";
 		data = new Gson().toJson(new SyncRequestPackage("123"));
 		request = new RequestPackageWrapper(command, data);
-		ResponsePackage response = ChannelJsonPackageProcessor.process(request, ac);
+		ResponsePackageData response = ChannelJsonPackageProcessor.process(request, ac);
 		
 		System.out.println(response);
 	}

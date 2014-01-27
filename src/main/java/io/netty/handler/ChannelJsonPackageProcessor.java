@@ -3,8 +3,8 @@ package io.netty.handler;
 import io.netty.annotation.Command;
 import io.netty.annotation.SocketController;
 import io.netty.handler.mapping.RequestPackageWrapper;
-import io.netty.handler.mapping.ResponsePackage;
-import io.netty.handler.timeout.auth.AuthoeizedChannel;
+import io.netty.handler.mapping.ResponsePackageData;
+import io.netty.handler.timeout.auth.AuthenticationProvider;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -101,7 +101,7 @@ public class ChannelJsonPackageProcessor {
 	 * @param ac
 	 * @return
 	 */
-	public static ResponsePackage process(RequestPackageWrapper rpw, AuthoeizedChannel ac) {
+	public static ResponsePackageData process(RequestPackageWrapper rpw, AuthenticationProvider ac) {
 		if (rpw == null) {
 			throw new IllegalArgumentException("RequestPackageWrapper should not be null");
 		}
@@ -114,7 +114,7 @@ public class ChannelJsonPackageProcessor {
 
 		InstanceMethod instanceMethod = MAPPED_METHODS.get(command);
 		if (instanceMethod == null) {
-			return new ResponsePackage(OTHER, String.format(COMMAND_NOT_FOUND, command));
+			return new ResponsePackageData(OTHER, String.format(COMMAND_NOT_FOUND, command));
 		} else {
 			return invoke(instanceMethod.method, data, instanceMethod.instance, ac);
 		}
@@ -128,29 +128,29 @@ public class ChannelJsonPackageProcessor {
 	 * @param ac
 	 * @return
 	 */
-	private static ResponsePackage invoke(Method method, String data, Object instance, AuthoeizedChannel ac) {
+	private static ResponsePackageData invoke(Method method, String data, Object instance, AuthenticationProvider ac) {
 		Class<?> dataType = method.getParameterTypes()[0];
 
 		try {
 			JsonElement je = new JsonParser().parse(data).getAsJsonObject().get("serialVersionUID");
 			if (je == null || je.isJsonNull()) {
 				LOG.error(String.format(PACKAGE_VERSION_PROP_NOT_FOUND, data));
-				return new ResponsePackage(OTHER, String.format(PACKAGE_VERSION_PROP_NOT_FOUND, data));
+				return new ResponsePackageData(OTHER, String.format(PACKAGE_VERSION_PROP_NOT_FOUND, data));
 			}
 
 			if (method.getParameterTypes().length == 0) {
-				return (ResponsePackage) method.invoke(instance);
+				return (ResponsePackageData) method.invoke(instance);
 			}
 
 			Object parameter = new Gson().fromJson(data, dataType);
 			Object res = method.invoke(instance, parameter, ac);
-			return (ResponsePackage) res;
+			return (ResponsePackageData) res;
 		} catch (JsonSyntaxException e) {
 			LOG.error(String.format(CANT_DESEREALIZE_JSON, data, dataType), e);
-			return new ResponsePackage(OTHER, String.format(CANT_DESEREALIZE_JSON, data, dataType));
+			return new ResponsePackageData(OTHER, String.format(CANT_DESEREALIZE_JSON, data, dataType));
 		} catch (Exception e) {
 			LOG.error(e);
-			return new ResponsePackage(OTHER, e.getMessage());
+			return new ResponsePackageData(OTHER, e.getMessage());
 		}
 	}
 }

@@ -3,19 +3,14 @@ package io.netty.handler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.mapping.RequestPackageWrapper;
-import io.netty.handler.timeout.auth.AuthoeizedChannel;
+import io.netty.handler.timeout.auth.AuthenticationProvider;
 
 import org.apache.log4j.Logger;
 
-public class ChannelPackageDataHandler extends ChannelInboundHandlerAdapter implements AuthoeizedChannel {
+public class ChannelPackageDataHandler extends ChannelInboundHandlerAdapter implements AuthenticationProvider {
 	private static final Logger LOG = Logger.getLogger(ChannelPackageDataHandler.class);
 
 	private boolean authorized = false;
-
-
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-	}
 
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {

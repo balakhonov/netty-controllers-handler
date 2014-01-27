@@ -1,7 +1,7 @@
 package io.netty.handler.mapping;
 
 
-public class ResponsePackageWrapper<C extends PackageVersion> extends ResponsePackage {
+public class ResponsePackageWrapper<C extends PackageVersion> extends ResponsePackageData {
 
 	private C data;
 
